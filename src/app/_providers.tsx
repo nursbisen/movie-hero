@@ -1,7 +1,9 @@
 "use client";
+import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { useState } from "react";
+import { MainErrorFallback } from "./_errors";
 
 export function Providers({ children }: React.PropsWithChildren) {
   const [queryClient] = useState(
@@ -16,6 +18,8 @@ export function Providers({ children }: React.PropsWithChildren) {
       })
   );
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ErrorBoundary>
   );
 }
